@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { IUser } from './User';
+import { IUser } from './UserModel';
 
 export interface IFriendRequest extends Document {
     from: IUser['_id'];

@@ -1,12 +1,14 @@
-import { Request, Response } from 'express';
-import User, { IUser } from '../../models/User';
+import { Request, RequestHandler, Response } from 'express';
+import User, { IUser } from '../../models/UserModel';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import passport from 'passport';
 
 //Retrieve all users
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
     try {
-        const users: IUser[] = await User.find({});
+        const users: IUser[] = await User.find();
+        console.log(users)
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ error: error });
@@ -36,8 +38,7 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password, profilePhoto = ''} = req.body;
     try {
-        const hashedPassword = await bcrypt.hash(password, 10); 
-        const newUser = new User({ username, email, password: hashedPassword, profilePhoto, friends: [] });
+        const newUser = new User({ username, email, password, profilePhoto, friends: [] });
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
     } catch (error) {
@@ -88,3 +89,15 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
         res.status(500).json({ error: error });
     }
 }
+
+export const loginUser: RequestHandler = passport.authenticate('local', {
+    successRedirect: '/home', // redirect to the home page after successful login
+    failureRedirect: '/login' // redirect back to the login page if there is an error
+});
+
+export const authFacebook: RequestHandler = passport.authenticate('facebook');
+
+export const authFacebookCallback: RequestHandler = passport.authenticate('facebook', {
+  successRedirect: '/home', // redirect to the home page after successful login
+  failureRedirect: '/login' // redirect back to the login page if there is an error
+});

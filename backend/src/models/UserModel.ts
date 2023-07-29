@@ -19,8 +19,8 @@ const UserSchema: Schema = new Schema({
 
 UserSchema.pre<IUser>('save', async function (next) {
     const user = this;
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 10);
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10);
     }
     next();
 });
