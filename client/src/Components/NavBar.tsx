@@ -24,7 +24,7 @@ function NavBar() {
         (
           <>
             <button onClick={logout}>Logout</button>
-            {(ctx.isAdmin ? (<Link to="/admin">Admin</Link>) : null) }
+            {/* {(ctx.isAdmin ? (<Link to="/admin">Admin</Link>) : null) } */}
             <Link to="/profile">Profile</Link> 
           </>
         ) : (
