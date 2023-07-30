@@ -21,9 +21,14 @@ const initialState: AuthState = {
   error: null
 };
 
+
 export const registerUser = createAsyncThunk('auth/registerUser', async (user: User) => {
-  const response = await axios.post("http://localhost:8080/users/register", user);
-  console.log(response)
+  const response = await axios({
+    method: "POST",
+    data: user,
+    withCredentials: true,
+    url: `${import.meta.env.VITE_API_URL}/users/register`,
+  })
   return response.data;
 });
 
@@ -32,9 +37,8 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (user: User) =
     method: "POST",
     data: user,
     withCredentials: true,
-    url: "http://localhost:8080/auth/login",
+    url: `${import.meta.env.VITE_API_URL}/auth/login`,
   })
-  console.log(response)
   return response.data;
 });
 
@@ -42,9 +46,8 @@ export const getUser = createAsyncThunk('auth/getUser', async () => {
   const response = await axios({
     method: "GET",
     withCredentials: true,
-    url: "http://localhost:8080/users/me",
+    url:  `${import.meta.env.VITE_API_URL}/users/me`,
   })
-  console.log(response)
   return response.data;
 });
 

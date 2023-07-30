@@ -1,6 +1,6 @@
-import passport, { PassportStatic } from 'passport';
+import { PassportStatic } from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
+// import { Strategy as FacebookStrategy } from 'passport-facebook';
 import bcrypt from 'bcrypt';
 import { Profile } from 'passport-facebook';
 import User, { IUser } from '../models/UserModel';
@@ -27,24 +27,24 @@ const passportConfig = (passport: PassportStatic) => {
       }
     ));
     
-    passport.use(new FacebookStrategy({
-        clientID: process.env.FACEBOOK_APP_ID as string,
-        clientSecret: process.env.FACEBOOK_APP_SECRET as string,
-        callbackURL: "/auth/facebook/callback"
-      },
-      async function(accessToken: string, refreshToken: string, profile: Profile, done: Function) {
-        const { id, displayName } = profile;
-        try {
-          let user = await User.findOne({ facebookId: id });
-          if (!user) {
-            user = await new User({ username: displayName, facebookId: id }).save();
-          }
-          done(null, user);
-        } catch (err) {
-          done(err, null);
-        }
-      }
-    ));
+    // passport.use(new FacebookStrategy({
+    //     clientID: process.env.FACEBOOK_APP_ID as string,
+    //     clientSecret: process.env.FACEBOOK_APP_SECRET as string,
+    //     callbackURL: "/auth/facebook/callback"
+    //   },
+    //   async function(accessToken: string, refreshToken: string, profile: Profile, done: Function) {
+    //     const { id, displayName } = profile;
+    //     try {
+    //       let user = await User.findOne({ facebookId: id });
+    //       if (!user) {
+    //         user = await new User({ username: displayName, facebookId: id }).save();
+    //       }
+    //       done(null, user);
+    //     } catch (err) {
+    //       done(err, null);
+    //     }
+    //   }
+    // ));
     
     passport.serializeUser((user: IUser | any, done: Function) => {
       done(null, user.id);
@@ -52,7 +52,7 @@ const passportConfig = (passport: PassportStatic) => {
     
     passport.deserializeUser(async (id: string, done: Function) => {
         try {
-          const user = await User.findById(id);
+          const user = await User.findById(id).select('username email');
           done(null, user);
         } catch(err) {
           done(err, null);
