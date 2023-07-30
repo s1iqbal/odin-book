@@ -5,16 +5,12 @@ import {
     registerUser,
     updateUser,
     deleteUser,
-    authFacebook,
-    authFacebookCallback,
-    loginUser
   } from '../../controllers/UserController';
 
 const router = express.Router();
 
 router.get('/', getAllUsers);
 router.get('/me', (req,res) => {
-  console.log(req.user)
   res.status(201).json(req.user);
 });
 

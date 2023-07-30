@@ -14,18 +14,18 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 const databaseURL = process.env.DATABASE || ' ';
 const secret = process.env.SESSION_SECRET || 'secretcode'
-
+const app_origin = process.env.FRONTEND_URL || "http://localhost:5173";
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:5173", // <-- location of the react app were connecting to
+    origin: app_origin, // <-- location of the react app were connecting to
     credentials: true,
   })
 );
 app.use(session({
-  secret,  // replace with a strong secret key
+  secret,
   resave: true,
   saveUninitialized: true,
 }));

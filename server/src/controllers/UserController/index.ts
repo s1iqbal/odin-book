@@ -96,16 +96,16 @@ export const loginUser: RequestHandler = (req, res, next) => {
         else {
           req.logIn(user, (err) => {
             if (err) throw err;
-            res.send("Successfully Authenticated");
-            console.log(req.user);
+            res.send("success");
           });
         }
       })(req, res, next);  
 }
 
-export const authFacebook: RequestHandler = passport.authenticate('facebook');
-
-export const authFacebookCallback: RequestHandler = passport.authenticate('facebook', {
-  successRedirect: '/home', // redirect to the home page after successful login
-  failureRedirect: '/login' // redirect back to the login page if there is an error
-});
+export const logoutUser: RequestHandler = (req, res, next) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.send("success");
+        next();
+    });
+}
