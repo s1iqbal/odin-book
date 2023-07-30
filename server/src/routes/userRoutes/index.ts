@@ -13,6 +13,10 @@ import {
 const router = express.Router();
 
 router.get('/', getAllUsers);
+router.get('/me', (req,res) => {
+  console.log(req.user)
+  res.status(201).json(req.user);
+});
 
 router.get('/user/:id', getUserById)
    
