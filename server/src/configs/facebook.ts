@@ -38,24 +38,9 @@ export const facebook = () => {
                         facebookId: profile.id,
                     })
                     await newUser.save()
-
-                    // req.logIn(newUser, (err) => {
-                    //     if (err) throw err
-                    //     res.send('success')
-                    // })
                     return cb(null, newUser)
-                } else {
-                    // req.logIn(user, (err) => {
-                    //     if (err) throw err
-                    //     res.send('success')
-                    // })
-                    if (!user) {
-                        return cb(null, false)
-                    }
-                    return cb(null, user)
                 }
-
-                return
+                return cb(null, user)
             }
         )
     )
