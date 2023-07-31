@@ -56,6 +56,9 @@ function Login() {
             ></input>
             <Button onClick={login}>Login</Button>
             <Button onClick={getUser}>get user thats logged in</Button>
+            <li>
+                <a href="/api/auth/facebook">Login With facebook</a>
+            </li>
         </div>
     )
 }

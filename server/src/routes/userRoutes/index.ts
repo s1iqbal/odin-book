@@ -1,27 +1,26 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express'
 import {
     getAllUsers,
     getUserById,
     registerUser,
     updateUser,
     deleteUser,
-  } from '../../controllers/UserController';
+} from '../../controllers/UserController'
+import passport from 'passport'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/', getAllUsers);
-router.get('/me', (req,res) => {
-  res.status(201).json(req.user);
-});
+router.get('/', getAllUsers)
+router.get('/me', (req, res) => {
+    res.status(201).json(req.user)
+})
 
 router.get('/user/:id', getUserById)
-   
-router.post('/register', registerUser);
-    
+
+router.post('/register', registerUser)
+
 router.put('/user/:id', updateUser)
-    
-router.delete('/:id', deleteUser);;
 
+router.delete('/:id', deleteUser)
 
-
-export default router;
+export default router
