@@ -3,6 +3,7 @@ import User, { IUser } from '../../models/UserModel'
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import passport from 'passport'
+import { facebook } from '../../configs/facebook'
 
 //Retrieve all users
 export const getAllUsers = async (
@@ -52,8 +53,12 @@ export const registerUser = async (
             password,
             profilePhoto,
             friends: [],
+            friendRequests: [],
+            facebookId: '',
         })
         await newUser.save()
+
+        console.log(newUser)
         req.logIn(newUser, (err) => {
             if (err) throw err
             res.send('success')

@@ -1,8 +1,5 @@
 import passport from 'passport'
-import { Request, RequestHandler, Response } from 'express'
 import User, { IUser } from '../models/UserModel'
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
 
 const facebookStrategy = require('passport-facebook').Strategy
 export const facebook = () => {
@@ -22,19 +19,16 @@ export const facebook = () => {
             ) {
                 let user = await User.findOne({ facebookId: profile.id })
                 console.log(user)
-
+                console.log(profile)
                 if (!user) {
-                    console.log(profile['_json'])
                     const newUser = new User({
-                        _id: new mongoose.Types.ObjectId(
-                            Number(profile['_json'].id)
-                        ),
-                        username: profile['_json'].first_name,
+                        username: profile['_json'].id,
                         email:
                             profile['_json'].email || profile['_json'].id || '',
                         password: profile['_json'].id,
                         profilePhoto: profile['_json'].picture.data.url,
                         friends: [],
+                        friendRequests: [],
                         facebookId: profile.id,
                     })
                     await newUser.save()

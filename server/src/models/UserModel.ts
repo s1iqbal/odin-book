@@ -7,8 +7,8 @@ export interface IUser extends Document {
     password: string
     profilePhoto: string
     friends: IUser['_id'][]
+    friendRequests: IUser['_id'][]
     facebookId: { type: String; default: '' }
-    googleId: { type: String; default: '' }
 }
 
 const UserSchema: Schema = new Schema({
@@ -16,9 +16,11 @@ const UserSchema: Schema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profilePhoto: { type: String, required: false },
-    friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    friends: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
+    friendRequest: [
+        { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    ],
     facebookId: { type: String, required: false, unique: true },
-    googleId: { type: String, required: false, unique: false },
 })
 
 UserSchema.pre<IUser>('save', async function (next) {

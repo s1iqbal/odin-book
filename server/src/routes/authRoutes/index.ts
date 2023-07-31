@@ -10,7 +10,10 @@ router.post('/login', loginUser)
 router.post('/logout', logoutUser)
 
 /* Login using facebook */
-router.get('/facebook', passport.authenticate('facebook'))
+router.get(
+    '/facebook',
+    passport.authenticate('facebook', { scope: ['public_profile'] })
+)
 
 router.get('/facebook/callback', function (request, response, next) {
     passport.authenticate(
